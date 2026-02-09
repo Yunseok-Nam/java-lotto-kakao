@@ -1,0 +1,21 @@
+package lotto.model;
+
+import lotto.LottoRules;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class PurchaseAmountTest {
+    @DisplayName("구매금액은 로또 가격을 나누어 떨어져야한다.")
+    @Test
+    void validLottoNumberTest() {
+        assertDoesNotThrow(() -> new PurchaseAmount(LottoRules.PURCHASE_UNIT * 4));
+    }
+
+    @DisplayName("구매금액은 로또 가격을 나누어 떨어져야한다.")
+    @Test
+    void invalidLottoNumberTest() {
+        assertThrows(IllegalArgumentException.class, () -> new PurchaseAmount(LottoRules.PURCHASE_UNIT * 4 + 1));
+    }
+}
