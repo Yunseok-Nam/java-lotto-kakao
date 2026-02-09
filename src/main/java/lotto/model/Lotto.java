@@ -14,6 +14,10 @@ public class Lotto {
         this.numbers = numbers;
     }
 
+    public static Lotto from(List<Integer> numbers) {
+        return new Lotto(numbers.stream().map(LottoNumber::new).toList());
+    }
+
     private void validate(List<LottoNumber> numbers) {
         if(numbers.size() != LottoRules.LOTTO_SIZE) {
             throw new IllegalArgumentException("[ERROR] 하나의 로또는 6개의 로또 번호를 가져야 합니다.");
@@ -23,5 +27,15 @@ public class Lotto {
         if (uniqueNumbers.size() != numbers.size()) {
             throw new IllegalArgumentException("[ERROR] 하나의 로또 안에서 중복된 숫자를 가질 수 없습니다.");
         }
+    }
+
+    public boolean contains(LottoNumber bonusNumber) {
+        return numbers.contains(bonusNumber);
+    }
+
+    public int calculateMatchCount(Lotto otherLotto) {
+        return (int) numbers.stream()
+                .filter(otherLotto::contains)
+                .count();
     }
 }
