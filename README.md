@@ -67,7 +67,7 @@
 
 ### `LottoResult`
 - 당첨 결과를 관리한다.(Enum 클래스)
-- MatchResult, MatchCount, MatchPrize, isBonusMatch를 들고 있는다.
+- matchCount, prize를 들고 있는다.
 
 
 ### `LottoMachine`
