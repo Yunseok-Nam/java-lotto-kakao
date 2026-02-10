@@ -18,4 +18,11 @@ public class PurchaseAmountTest {
     void invalidLottoNumberTest() {
         assertThrows(IllegalArgumentException.class, () -> new PurchaseAmount(LottoRules.PURCHASE_UNIT * 4 + 1));
     }
+
+    @DisplayName("구매금액은 1,000원 이상이어야 한다.")
+    @Test
+    void invalidMinimumPurchaseAmountTest() {
+        assertThrows(IllegalArgumentException.class, () -> new PurchaseAmount(0));
+        assertThrows(IllegalArgumentException.class, () -> new PurchaseAmount(-LottoRules.PURCHASE_UNIT));
+    }
 }
