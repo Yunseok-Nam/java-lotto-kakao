@@ -6,14 +6,10 @@ import lotto.view.OutputView;
 import java.util.Scanner;
 
 public class Application {
-    public static void main(String[] args) {
-        createLottoController().run();
-    }
-
-    private static LottoController createLottoController() {
-        Scanner scanner = new Scanner(System.in);
-        InputView inputView = new InputView(scanner);
-        OutputView outputView = new OutputView();
-        return new LottoController(inputView, outputView, new RandomLottoNumberGenerator());
-    }
+	public static void main(String[] args) {
+		InputView inputView = new InputView();
+		OutputView outputView = new OutputView();
+		LottoController controller = new LottoController(inputView, outputView, new RandomLottoNumberGenerator());
+		controller.run();
+	}
 }

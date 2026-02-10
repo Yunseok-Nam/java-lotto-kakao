@@ -16,11 +16,7 @@ public class InputView {
     private static final String COMMA_DELIMITER = ",";
     private static final String NOT_NUMBER_ERROR_MESSAGE = "[ERROR] 숫자만 입력해 주세요.";
 
-    private final Scanner scanner;
-
-    public InputView(Scanner scanner) {
-        this.scanner = scanner;
-    }
+    private final Scanner scanner = new Scanner(System.in);
 
     public PurchaseAmount readPurchaseAmount() {
         System.out.println(PURCHASE_AMOUNT_PROMPT);
