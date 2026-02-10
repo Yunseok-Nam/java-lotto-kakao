@@ -63,7 +63,7 @@
 
 ### `Lottos`
 - `Lotto` List를 보유하는 일급 컬렉션
-- `WinningLotto`를 바탕으로, 당첨 결과들을 계산한다.
+- `WinningLotto`와 `PurchaseAmount`를 바탕으로 `LottoStatistics`를 계산한다.
 
 
 ### `LottoResult`
@@ -71,9 +71,15 @@
 - matchCount, prize를 들고 있는다.
 
 
+### `LottoStatistics`
+- 당첨 통계를 관리하는 객체
+- `LottoResult`별 당첨 개수, 총 당첨금, 수익률 계산 기능을 가진다.
+- `PurchaseAmount`를 함께 보유하여 수익률을 스스로 계산한다.
+
+
 ### `LottoMachine`
-- `Lottos`, `PurchaseAmount`를 가변값으로 두고, 생성 당시에 초기화를 한다.
-- 당첨 번호와 보너스 번호를 파라미터로 받아서 `WinningLotto`를 생성하고, `LottoResult` 리스트를 만들어낸다.
+- `PurchaseAmount`와 번호 생성기(`LottoNumberGenerator`)를 받아 `Lottos`를 초기화한다.
+- 당첨 번호와 보너스 번호를 받아 `WinningLotto`를 만들고, 최종적으로 `LottoStatistics`를 반환한다.
 
 
 ### `PurchaseAmount`

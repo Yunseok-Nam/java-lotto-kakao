@@ -18,6 +18,10 @@ public class PurchaseAmount {
         }
     }
 
+    public int getLottoCount() {
+        return amount / LottoRules.PURCHASE_UNIT;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
