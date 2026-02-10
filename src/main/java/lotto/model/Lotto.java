@@ -38,4 +38,9 @@ public class Lotto {
                 .filter(otherLotto::contains)
                 .count();
     }
+
+    @Override
+    public String toString() {
+        return numbers.toString();
+    }
 }
