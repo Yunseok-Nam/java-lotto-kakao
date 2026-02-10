@@ -6,22 +6,22 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class RandomLottoNumberGenerator implements LottoNumberGenerator {
-    private static final int MIN_LOTTO_NUMBER = 1;
-    private static final int MAX_LOTTO_NUMBER = 45;
+	private static final int MIN_LOTTO_NUMBER = 1;
+	private static final int MAX_LOTTO_NUMBER = 45;
 
-    @Override
-    public List<Integer> generate() {
-        List<Integer> candidates = createCandidates();
-        Collections.shuffle(candidates);
-        return candidates.stream()
-                .limit(LottoRules.LOTTO_SIZE)
-                .sorted()
-                .toList();
-    }
+	@Override
+	public List<Integer> generate() {
+		List<Integer> candidates = createCandidates();
+		Collections.shuffle(candidates);
+		return candidates.stream()
+			.limit(LottoRules.LOTTO_SIZE)
+			.sorted()
+			.toList();
+	}
 
-    private List<Integer> createCandidates() {
-        return IntStream.rangeClosed(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER)
-                .boxed()
-                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-    }
+	private List<Integer> createCandidates() {
+		return IntStream.rangeClosed(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER)
+			.boxed()
+			.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+	}
 }

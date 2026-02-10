@@ -13,61 +13,61 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class LottoController {
-    private final InputView inputView;
-    private final OutputView outputView;
-    private final LottoNumberGenerator lottoNumberGenerator;
+	private final InputView inputView;
+	private final OutputView outputView;
+	private final LottoNumberGenerator lottoNumberGenerator;
 
-    public LottoController(InputView inputView, OutputView outputView, LottoNumberGenerator lottoNumberGenerator) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-        this.lottoNumberGenerator = lottoNumberGenerator;
-    }
+	public LottoController(InputView inputView, OutputView outputView, LottoNumberGenerator lottoNumberGenerator) {
+		this.inputView = inputView;
+		this.outputView = outputView;
+		this.lottoNumberGenerator = lottoNumberGenerator;
+	}
 
-    public void run() {
-        PurchaseAmount purchaseAmount = readValidPurchaseAmount();
-        LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator);
-        outputView.printPurchasedLottos(lottoMachine.getLottos().values());
-        WinningLotto winningLotto = readValidWinningLotto();
-        outputView.printStatistics(lottoMachine.calculateResult(winningLotto));
-    }
+	public void run() {
+		PurchaseAmount purchaseAmount = readValidPurchaseAmount();
+		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator);
+		outputView.printPurchasedLottos(lottoMachine.getLottos().values());
+		WinningLotto winningLotto = readValidWinningLotto();
+		outputView.printStatistics(lottoMachine.calculateResult(winningLotto));
+	}
 
-    private PurchaseAmount readValidPurchaseAmount() {
-        return readUntilValid(inputView::readPurchaseAmount);
-    }
+	private PurchaseAmount readValidPurchaseAmount() {
+		return readUntilValid(inputView::readPurchaseAmount);
+	}
 
-    private WinningLotto readValidWinningLotto() {
-        Lotto winningNumbers = readValidWinningNumbers();
-        LottoNumber bonusNumber = readValidBonusNumber(winningNumbers);
-        return new WinningLotto(winningNumbers, bonusNumber);
-    }
+	private WinningLotto readValidWinningLotto() {
+		Lotto winningNumbers = readValidWinningNumbers();
+		LottoNumber bonusNumber = readValidBonusNumber(winningNumbers);
+		return new WinningLotto(winningNumbers, bonusNumber);
+	}
 
-    private Lotto readValidWinningNumbers() {
-        return readUntilValid(inputView::readWinningNumbers);
-    }
+	private Lotto readValidWinningNumbers() {
+		return readUntilValid(inputView::readWinningNumbers);
+	}
 
-    private LottoNumber readValidBonusNumber(Lotto winningNumbers) {
-        return readUntilValid(() -> validateBonusNumber(winningNumbers, inputView.readBonusNumber()));
-    }
+	private LottoNumber readValidBonusNumber(Lotto winningNumbers) {
+		return readUntilValid(() -> validateBonusNumber(winningNumbers, inputView.readBonusNumber()));
+	}
 
-    private <T> T readUntilValid(Supplier<T> reader) {
-        Optional<T> value = tryRead(reader);
-        while (value.isEmpty()) {
-            value = tryRead(reader);
-        }
-        return value.orElseThrow();
-    }
+	private <T> T readUntilValid(Supplier<T> reader) {
+		Optional<T> value = tryRead(reader);
+		while (value.isEmpty()) {
+			value = tryRead(reader);
+		}
+		return value.orElseThrow();
+	}
 
-    private <T> Optional<T> tryRead(Supplier<T> reader) {
-        try {
-            return Optional.of(reader.get());
-        } catch (IllegalArgumentException exception) {
-            outputView.printError(exception.getMessage());
-            return Optional.empty();
-        }
-    }
+	private <T> Optional<T> tryRead(Supplier<T> reader) {
+		try {
+			return Optional.of(reader.get());
+		} catch (IllegalArgumentException exception) {
+			outputView.printError(exception.getMessage());
+			return Optional.empty();
+		}
+	}
 
-    private LottoNumber validateBonusNumber(Lotto winningNumbers, LottoNumber bonusNumber) {
-        new WinningLotto(winningNumbers, bonusNumber);
-        return bonusNumber;
-    }
+	private LottoNumber validateBonusNumber(Lotto winningNumbers, LottoNumber bonusNumber) {
+		new WinningLotto(winningNumbers, bonusNumber);
+		return bonusNumber;
+	}
 }
