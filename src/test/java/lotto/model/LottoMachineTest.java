@@ -40,9 +40,9 @@ class LottoMachineTest {
 
 		LottoStatistics lottoStatistics = lottoMachine.calculateResult(winningLotto);
 
-		assertEquals(1L, lottoStatistics.countOf(LottoResult.FIRST));
-		assertEquals(1L, lottoStatistics.countOf(LottoResult.SECOND));
-		assertEquals(1L, lottoStatistics.countOf(LottoResult.FIFTH));
+		assertEquals(1, lottoStatistics.countOf(LottoResult.FIRST));
+		assertEquals(1, lottoStatistics.countOf(LottoResult.SECOND));
+		assertEquals(1, lottoStatistics.countOf(LottoResult.FIFTH));
 		int totalPrize = LottoResult.FIRST.getPrize() + LottoResult.SECOND.getPrize() + LottoResult.FIFTH.getPrize();
 		double profitRate = (double)totalPrize / purchaseAmount;
 		assertEquals(profitRate, lottoStatistics.profitRate());
