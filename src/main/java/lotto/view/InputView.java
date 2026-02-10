@@ -1,8 +1,13 @@
 package lotto.view;
 
-import java.util.Arrays;
+import lotto.model.Lotto;
+import lotto.model.LottoNumber;
+import lotto.model.PurchaseAmount;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class InputView {
     private static final String PURCHASE_AMOUNT_PROMPT = "구입금액을 입력해 주세요.";
@@ -17,20 +22,20 @@ public class InputView {
         this.scanner = scanner;
     }
 
-    public int readPurchaseAmount() {
+    public PurchaseAmount readPurchaseAmount() {
         System.out.println(PURCHASE_AMOUNT_PROMPT);
-        return parseNumber(scanner.nextLine());
+        return new PurchaseAmount(parseNumber(scanner.nextLine()));
     }
 
-    public List<Integer> readWinningNumbers() {
+    public Lotto readWinningNumbers() {
         System.out.println();
         System.out.println(WINNING_NUMBERS_PROMPT);
-        return parseCommaSeparatedNumbers(scanner.nextLine());
+        return Lotto.from(parseCommaSeparatedNumbers(scanner.nextLine()));
     }
 
-    public int readBonusNumber() {
+    public LottoNumber readBonusNumber() {
         System.out.println(BONUS_NUMBER_PROMPT);
-        return parseNumber(scanner.nextLine());
+        return new LottoNumber(parseNumber(scanner.nextLine()));
     }
 
     private int parseNumber(String value) {
@@ -42,9 +47,11 @@ public class InputView {
     }
 
     private List<Integer> parseCommaSeparatedNumbers(String value) {
-        return Arrays.stream(value.split(COMMA_DELIMITER))
-                .map(String::trim)
-                .map(this::parseNumber)
-                .toList();
+        StringTokenizer tokenizer = new StringTokenizer(value, COMMA_DELIMITER);
+        List<Integer> numbers = new ArrayList<>();
+        while (tokenizer.hasMoreTokens()) {
+            numbers.add(parseNumber(tokenizer.nextToken()));
+        }
+        return numbers;
     }
 }

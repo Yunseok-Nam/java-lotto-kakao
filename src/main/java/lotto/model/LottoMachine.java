@@ -9,9 +9,13 @@ public class LottoMachine {
     private final PurchaseAmount purchaseAmount;
     private final Lottos lottos;
 
-    public LottoMachine(int purchaseAmount, LottoNumberGenerator generator) {
-        this.purchaseAmount = new PurchaseAmount(purchaseAmount);
+    public LottoMachine(PurchaseAmount purchaseAmount, LottoNumberGenerator generator) {
+        this.purchaseAmount = purchaseAmount;
         this.lottos = issueLottos(generator);
+    }
+
+    public LottoMachine(int purchaseAmount, LottoNumberGenerator generator) {
+        this(new PurchaseAmount(purchaseAmount), generator);
     }
 
     private Lottos issueLottos(LottoNumberGenerator generator) {
@@ -25,8 +29,7 @@ public class LottoMachine {
         return lottos;
     }
 
-    public LottoStatistics calculateResult(List<Integer> winningNumbers, int bonusNumber) {
-        WinningLotto winningLotto = new WinningLotto(Lotto.from(winningNumbers), new LottoNumber(bonusNumber));
+    public LottoStatistics calculateResult(WinningLotto winningLotto) {
         return lottos.calculateStatistics(winningLotto, purchaseAmount);
     }
 }

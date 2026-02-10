@@ -11,14 +11,17 @@ public class RandomLottoNumberGenerator implements LottoNumberGenerator {
 
     @Override
     public List<Integer> generate() {
-        List<Integer> candidates = IntStream.rangeClosed(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER)
-                .boxed()
-                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-
+        List<Integer> candidates = createCandidates();
         Collections.shuffle(candidates);
         return candidates.stream()
                 .limit(LottoRules.LOTTO_SIZE)
                 .sorted()
                 .toList();
+    }
+
+    private List<Integer> createCandidates() {
+        return IntStream.rangeClosed(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER)
+                .boxed()
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 }

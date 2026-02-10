@@ -4,13 +4,12 @@ import lotto.model.Lotto;
 import lotto.model.LottoMachine;
 import lotto.model.LottoNumber;
 import lotto.model.PurchaseAmount;
-import lotto.model.LottoStatistics;
 import lotto.model.WinningLotto;
 import lotto.util.LottoNumberGenerator;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class LottoController {
@@ -25,56 +24,50 @@ public class LottoController {
     }
 
     public void run() {
-        int purchaseAmount = readValidPurchaseAmount();
+        PurchaseAmount purchaseAmount = readValidPurchaseAmount();
         LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator);
         outputView.printPurchasedLottos(lottoMachine.getLottos().values());
-
-        List<Integer> winningNumbers = readValidWinningNumbers();
-        int bonusNumber = readValidBonusNumber(winningNumbers);
-
-        LottoStatistics lottoStatistics = lottoMachine.calculateResult(winningNumbers, bonusNumber);
-        outputView.printStatistics(lottoStatistics);
+        WinningLotto winningLotto = readValidWinningLotto();
+        outputView.printStatistics(lottoMachine.calculateResult(winningLotto));
     }
 
-    private int readValidPurchaseAmount() {
-        return readUntilValid(() -> {
-            int purchaseAmount = inputView.readPurchaseAmount();
-            validatePurchaseAmount(purchaseAmount);
-            return purchaseAmount;
-        });
+    private PurchaseAmount readValidPurchaseAmount() {
+        return readUntilValid(inputView::readPurchaseAmount);
     }
 
-    private List<Integer> readValidWinningNumbers() {
-        return readUntilValid(() -> {
-            List<Integer> numbers = inputView.readWinningNumbers();
-            Lotto.from(numbers);
-            return numbers;
-        });
+    private WinningLotto readValidWinningLotto() {
+        Lotto winningNumbers = readValidWinningNumbers();
+        LottoNumber bonusNumber = readValidBonusNumber(winningNumbers);
+        return new WinningLotto(winningNumbers, bonusNumber);
     }
 
-    private int readValidBonusNumber(List<Integer> winningNumbers) {
-        return readUntilValid(() -> {
-            int bonusNumber = inputView.readBonusNumber();
-            validateBonusNumber(winningNumbers, bonusNumber);
-            return bonusNumber;
-        });
+    private Lotto readValidWinningNumbers() {
+        return readUntilValid(inputView::readWinningNumbers);
     }
 
-    private void validateBonusNumber(List<Integer> winningNumbers, int bonusNumber) {
-        new WinningLotto(Lotto.from(winningNumbers), new LottoNumber(bonusNumber));
-    }
-
-    private void validatePurchaseAmount(int purchaseAmount) {
-        new PurchaseAmount(purchaseAmount);
+    private LottoNumber readValidBonusNumber(Lotto winningNumbers) {
+        return readUntilValid(() -> validateBonusNumber(winningNumbers, inputView.readBonusNumber()));
     }
 
     private <T> T readUntilValid(Supplier<T> reader) {
-        while (true) {
-            try {
-                return reader.get();
-            } catch (IllegalArgumentException exception) {
-                outputView.printError(exception.getMessage());
-            }
+        Optional<T> value = tryRead(reader);
+        while (value.isEmpty()) {
+            value = tryRead(reader);
         }
+        return value.orElseThrow();
+    }
+
+    private <T> Optional<T> tryRead(Supplier<T> reader) {
+        try {
+            return Optional.of(reader.get());
+        } catch (IllegalArgumentException exception) {
+            outputView.printError(exception.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    private LottoNumber validateBonusNumber(Lotto winningNumbers, LottoNumber bonusNumber) {
+        new WinningLotto(winningNumbers, bonusNumber);
+        return bonusNumber;
     }
 }
