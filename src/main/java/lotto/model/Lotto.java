@@ -1,6 +1,6 @@
 package lotto.model;
 
-import lotto.LottoRules;
+import lotto.util.LottoRules;
 
 import java.util.HashSet;
 import java.util.List;

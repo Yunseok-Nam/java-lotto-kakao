@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LottosTest {
 
-    @DisplayName("당첨 로또를 기준으로 각 로또의 결과를 계산한다.")
+    @DisplayName("당첨 로또를 기준으로 각 등수 통계를 계산한다.")
     @Test
-    void calculateLottoResultsTest() {
+    void calculateStatisticsTest() {
         Lottos lottos = new Lottos(List.of(
                 Lotto.from(List.of(1, 2, 3, 4, 5, 6)),
                 Lotto.from(List.of(1, 2, 3, 4, 5, 7)),
@@ -21,9 +21,17 @@ class LottosTest {
                 Lotto.from(List.of(1, 2, 3, 4, 5, 6)),
                 new LottoNumber(7)
         );
+        PurchaseAmount purchaseAmount = new PurchaseAmount(3000);
 
-        List<LottoResult> results = lottos.calculateLottoResults(winningLotto);
+        LottoStatistics lottoStatistics = lottos.calculateStatistics(winningLotto, purchaseAmount);
 
-        assertEquals(List.of(LottoResult.FIRST, LottoResult.SECOND, LottoResult.FIFTH), results);
+        assertEquals(1L, lottoStatistics.countOf(LottoResult.FIRST));
+        assertEquals(1L, lottoStatistics.countOf(LottoResult.SECOND));
+        assertEquals(1L, lottoStatistics.countOf(LottoResult.FIFTH));
+        assertEquals(0L, lottoStatistics.countOf(LottoResult.MISS));
+        int totalPrize = LottoResult.FIRST.getPrize() + LottoResult.SECOND.getPrize() + LottoResult.FIFTH.getPrize();
+        assertEquals(totalPrize, lottoStatistics.calculateTotalPrize());
+        double profitRate = (double) totalPrize / 3000;
+        assertEquals(profitRate, lottoStatistics.profitRate());
     }
 }

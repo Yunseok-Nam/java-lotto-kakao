@@ -1,0 +1,45 @@
+package lotto.model;
+
+import lotto.util.LottoNumberGenerator;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class LottoMachineTest {
+
+    @DisplayName("구매 금액에 맞는 개수만큼 로또를 발급한다.")
+    @Test
+    void issueLottosByPurchaseAmountTest() {
+        LottoNumberGenerator lottoNumberGenerator = () -> List.of(1, 2, 3, 4, 5, 6);
+
+        LottoMachine lottoMachine = new LottoMachine(3000, lottoNumberGenerator);
+
+        assertEquals(3, lottoMachine.getLottos().values().size());
+    }
+
+    @DisplayName("구매한 로또들의 당첨 결과를 계산한다.")
+    @Test
+    void calculateLottoResultsTest() {
+        List<List<Integer>> generatedNumbers = new ArrayList<>(List.of(
+                List.of(1, 2, 3, 4, 5, 6),
+                List.of(1, 2, 3, 4, 5, 7),
+                List.of(1, 2, 3, 10, 11, 12)
+        ));
+        LottoNumberGenerator lottoNumberGenerator = generatedNumbers::removeFirst;
+        int purchaseAmount = 3000;
+        LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator);
+
+        LottoStatistics lottoStatistics = lottoMachine.calculateResult(List.of(1, 2, 3, 4, 5, 6), 7);
+
+        assertEquals(1L, lottoStatistics.countOf(LottoResult.FIRST));
+        assertEquals(1L, lottoStatistics.countOf(LottoResult.SECOND));
+        assertEquals(1L, lottoStatistics.countOf(LottoResult.FIFTH));
+        int totalPrize = LottoResult.FIRST.getPrize() + LottoResult.SECOND.getPrize() + LottoResult.FIFTH.getPrize();
+        double profitRate = (double) totalPrize / purchaseAmount;
+        assertEquals(profitRate, lottoStatistics.profitRate());
+    }
+}

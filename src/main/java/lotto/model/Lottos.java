@@ -9,7 +9,11 @@ public class Lottos {
         this.lottos = List.copyOf(lottos);
     }
 
-    public List<LottoResult> calculateLottoResults(WinningLotto winningLotto) {
+    public LottoStatistics calculateStatistics(WinningLotto winningLotto, PurchaseAmount purchaseAmount) {
+        return LottoStatistics.from(calculateLottoResults(winningLotto), purchaseAmount);
+    }
+
+    private List<LottoResult> calculateLottoResults(WinningLotto winningLotto) {
         return lottos.stream()
                 .map(winningLotto::calculateResult)
                 .toList();
