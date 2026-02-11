@@ -2,10 +2,10 @@ package lotto.model;
 
 import java.util.Objects;
 
+import lotto.util.LottoRules;
+
 public class LottoNumber {
 	private static final String INVALID_RANGE_ERROR_MESSAGE = "[ERROR] 로또 번호는 1~45 범위의 숫자입니다.";
-	private static final int MIN_LOTTO_NUMBER = 1;
-	private static final int MAX_LOTTO_NUMBER = 45;
 	private final int number;
 
 	public LottoNumber(int number) {
@@ -14,7 +14,7 @@ public class LottoNumber {
 	}
 
 	private void validate(int number) {
-		if (number < MIN_LOTTO_NUMBER || number > MAX_LOTTO_NUMBER) {
+		if (number < LottoRules.MIN_LOTTO_NUMBER || number > LottoRules.MAX_LOTTO_NUMBER) {
 			throw new IllegalArgumentException(INVALID_RANGE_ERROR_MESSAGE);
 		}
 	}
