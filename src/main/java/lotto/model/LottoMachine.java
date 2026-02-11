@@ -20,7 +20,7 @@ public class LottoMachine {
 	}
 
 	private Lottos issueLottos(LottoNumberGenerator generator) {
-		List<Lotto> issuedLottos = Stream.generate(() -> Lotto.from(generator.generate()))
+		List<Lotto> issuedLottos = Stream.generate(() -> new Lotto(generator.generate()))
 			.limit(purchaseAmount.getLottoCount())
 			.toList();
 		return new Lottos(issuedLottos);
