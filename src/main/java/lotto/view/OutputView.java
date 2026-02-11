@@ -1,12 +1,14 @@
 package lotto.view;
 
 import lotto.model.Lotto;
+import lotto.model.LottoNumber;
 import lotto.model.LottoResult;
 import lotto.model.LottoStatistics;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OutputView {
 	private static final String PURCHASED_LOTTOS_MESSAGE = "개를 구매했습니다.";
@@ -18,7 +20,9 @@ public class OutputView {
 
 	public void printPurchasedLottos(List<Lotto> lottos) {
 		System.out.println(lottos.size() + PURCHASED_LOTTOS_MESSAGE);
-		lottos.forEach(System.out::println);
+		lottos.stream()
+			.map(this::formatLotto)
+			.forEach(System.out::println);
 	}
 
 	public void printStatistics(LottoStatistics lottoStatistics) {
@@ -42,6 +46,14 @@ public class OutputView {
 		return BigDecimal.valueOf(profitRate)
 			.setScale(2, RoundingMode.DOWN)
 			.doubleValue();
+	}
+
+	private String formatLotto(Lotto lotto) {
+		String numbers = lotto.numbers().stream()
+			.map(LottoNumber::value)
+			.map(String::valueOf)
+			.collect(Collectors.joining(", "));
+		return "[" + numbers + "]";
 	}
 
 	public void printError(String message) {

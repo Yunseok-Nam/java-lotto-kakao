@@ -6,15 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Lotto {
+public record Lotto(List<LottoNumber> numbers) {
 	private static final String LOTTO_SIZE_ERROR_MESSAGE = "[ERROR] 하나의 로또는 6개의 로또 번호를 가져야 합니다.";
 	private static final String DUPLICATED_NUMBER_ERROR_MESSAGE = "[ERROR] 하나의 로또 안에서 중복된 숫자를 가질 수 없습니다.";
 
-	private final Set<LottoNumber> numbers;
-
 	public Lotto(List<LottoNumber> numbers) {
 		validate(numbers);
-		this.numbers = Set.copyOf(numbers);
+		this.numbers = List.copyOf(numbers);
 	}
 
 	public static Lotto from(List<Integer> numbers) {
@@ -40,10 +38,5 @@ public class Lotto {
 		return (int)numbers.stream()
 			.filter(otherLotto::contains)
 			.count();
-	}
-
-	@Override
-	public String toString() {
-		return numbers.toString();
 	}
 }
