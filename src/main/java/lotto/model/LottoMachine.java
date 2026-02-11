@@ -4,6 +4,7 @@ import lotto.util.LottoNumberGenerator;
 
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class LottoMachine {
 	private final PurchaseAmount purchaseAmount;
@@ -19,8 +20,8 @@ public class LottoMachine {
 	}
 
 	private Lottos issueLottos(LottoNumberGenerator generator) {
-		List<Lotto> issuedLottos = IntStream.range(0, purchaseAmount.getLottoCount())
-			.mapToObj(index -> Lotto.from(generator.generate()))
+		List<Lotto> issuedLottos = Stream.generate(() -> Lotto.from(generator.generate()))
+			.limit(purchaseAmount.getLottoCount())
 			.toList();
 		return new Lottos(issuedLottos);
 	}
