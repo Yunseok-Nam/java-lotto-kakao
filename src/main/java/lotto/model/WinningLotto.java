@@ -1,7 +1,7 @@
 package lotto.model;
 
 public class WinningLotto {
-	private static final String DUPLICATED_BONUS_NUMBER_ERROR_MESSAGE = "[ERROR] 보너스 번호는 당첨 번호와 중복될 수 없습니다.";
+	private static final String DUPLICATED_BONUS_NUMBER_ERROR_MESSAGE = "보너스 번호는 당첨 번호와 중복될 수 없습니다.";
 
 	private final Lotto lotto;
 	private final LottoNumber bonusNumber;

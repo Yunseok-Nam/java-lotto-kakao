@@ -5,7 +5,7 @@ import java.util.Objects;
 import lotto.util.LottoRules;
 
 public class LottoNumber implements Comparable<LottoNumber> {
-	private static final String INVALID_RANGE_ERROR_MESSAGE = "[ERROR] 로또 번호는 1~45 범위의 숫자입니다.";
+	private static final String INVALID_RANGE_ERROR_MESSAGE = "로또 번호는 1~45 범위의 숫자입니다.";
 	private final int number;
 
 	public LottoNumber(int number) {

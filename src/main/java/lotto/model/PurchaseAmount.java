@@ -5,8 +5,8 @@ import lotto.util.LottoRules;
 import java.util.Objects;
 
 public class PurchaseAmount {
-	private static final String MIN_PURCHASE_AMOUNT_ERROR_MESSAGE = "[ERROR] 구입금액은 1,000원 이상이어야 합니다.";
-	private static final String PURCHASE_UNIT_ERROR_MESSAGE = "[ERROR] 구입금액은 1,000원 단위여야 합니다.";
+	private static final String MIN_PURCHASE_AMOUNT_ERROR_MESSAGE = "구입금액은 1,000원 이상이어야 합니다.";
+	private static final String PURCHASE_UNIT_ERROR_MESSAGE = "입금액은 1,000원 단위여야 합니다.";
 
 	private final int amount;
 

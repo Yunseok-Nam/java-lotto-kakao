@@ -14,7 +14,7 @@ public class InputView {
 	private static final String WINNING_NUMBERS_PROMPT = "지난 주 당첨 번호를 입력해 주세요.";
 	private static final String BONUS_NUMBER_PROMPT = "보너스 볼을 입력해 주세요.";
 	private static final String COMMA_DELIMITER = ",";
-	private static final String NOT_NUMBER_ERROR_MESSAGE = "[ERROR] 숫자만 입력해 주세요.";
+	private static final String NOT_NUMBER_ERROR_MESSAGE = "숫자만 입력해 주세요.";
 
 	private final Scanner scanner = new Scanner(System.in);
 

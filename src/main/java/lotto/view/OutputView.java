@@ -17,6 +17,7 @@ public class OutputView {
 	private static final String RESULT_LINE_FORMAT = "%d개 일치 (%d원)- %d개";
 	private static final String SECOND_RESULT_LINE_FORMAT = "%d개 일치, 보너스 볼 일치(%d원) - %d개";
 	private static final String PROFIT_RATE_MESSAGE_FORMAT = "총 수익률은 %.2f입니다.";
+	private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
 
 	public void printPurchasedLottos(List<Lotto> lottos) {
 		System.out.println(lottos.size() + PURCHASED_LOTTOS_MESSAGE);
@@ -57,6 +58,6 @@ public class OutputView {
 	}
 
 	public void printError(String message) {
-		System.out.println(message);
+		System.out.println(ERROR_MESSAGE_PREFIX + message);
 	}
 }
