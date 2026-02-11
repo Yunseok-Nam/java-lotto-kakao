@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WinningLottoTest {
-	@DisplayName("보너스 번호는 로또 내부의 숫자와 중복되면 안된다.")
+	@DisplayName("보너스 번호는 로또 번호와 중복되면 안된다.")
 	@Test
 	void validLottoNumberTest() {
 		Lotto lotto = new Lotto(Stream.of(1, 2, 3, 4, 5, 6)
@@ -23,7 +23,7 @@ public class WinningLottoTest {
 		assertDoesNotThrow(() -> new WinningLotto(lotto, bonusNumber));
 	}
 
-	@DisplayName("보너스 번호는 로또 내부의 숫자와 중복되면 안된다.")
+	@DisplayName("보너스 번호가 로또 번호와 중복되면 예외가 발생한다.")
 	@Test
 	void invalidLottoNumberTest() {
 		Lotto lotto = new Lotto(Stream.of(1, 2, 3, 4, 5, 6)

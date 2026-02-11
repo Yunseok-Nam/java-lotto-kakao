@@ -12,7 +12,7 @@ public class LottoNumberTest {
 		assertDoesNotThrow(() -> new LottoNumber(44));
 	}
 
-	@DisplayName("로또번호는 1~45 사이의 숫자만을 입력받는다.")
+	@DisplayName("로또번호가 1~45 사이의 숫자가 아닐경우 예외가 발생한다.")
 	@Test
 	void invalidLottoNumberTest() {
 		assertThrows(IllegalArgumentException.class, () -> new LottoNumber(46));
