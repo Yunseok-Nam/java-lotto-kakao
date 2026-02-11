@@ -10,11 +10,11 @@ public class Lotto {
 	private static final String LOTTO_SIZE_ERROR_MESSAGE = "[ERROR] 하나의 로또는 6개의 로또 번호를 가져야 합니다.";
 	private static final String DUPLICATED_NUMBER_ERROR_MESSAGE = "[ERROR] 하나의 로또 안에서 중복된 숫자를 가질 수 없습니다.";
 
-	private final List<LottoNumber> numbers;
+	private final Set<LottoNumber> numbers;
 
 	public Lotto(List<LottoNumber> numbers) {
 		validate(numbers);
-		this.numbers = numbers;
+		this.numbers = Set.copyOf(numbers);
 	}
 
 	public static Lotto from(List<Integer> numbers) {
