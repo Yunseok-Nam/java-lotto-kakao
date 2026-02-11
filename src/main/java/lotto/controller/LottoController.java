@@ -24,29 +24,17 @@ public class LottoController {
 	}
 
 	public void run() {
-		PurchaseAmount purchaseAmount = readValidPurchaseAmount();
+		PurchaseAmount purchaseAmount = readUntilValid(inputView::readPurchaseAmount);
 		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator);
 		outputView.printPurchasedLottos(lottoMachine.getLottos().values());
 		WinningLotto winningLotto = readValidWinningLotto();
 		outputView.printStatistics(lottoMachine.calculateResult(winningLotto));
 	}
 
-	private PurchaseAmount readValidPurchaseAmount() {
-		return readUntilValid(inputView::readPurchaseAmount);
-	}
-
 	private WinningLotto readValidWinningLotto() {
-		Lotto winningNumbers = readValidWinningNumbers();
-		LottoNumber bonusNumber = readValidBonusNumber(winningNumbers);
+		Lotto winningNumbers = readUntilValid(inputView::readWinningNumbers);
+		LottoNumber bonusNumber = readUntilValid(inputView::readBonusNumber);
 		return new WinningLotto(winningNumbers, bonusNumber);
-	}
-
-	private Lotto readValidWinningNumbers() {
-		return readUntilValid(inputView::readWinningNumbers);
-	}
-
-	private LottoNumber readValidBonusNumber(Lotto winningNumbers) {
-		return readUntilValid(() -> validateBonusNumber(winningNumbers, inputView.readBonusNumber()));
 	}
 
 	private <T> T readUntilValid(Supplier<T> reader) {
@@ -64,10 +52,5 @@ public class LottoController {
 			outputView.printError(exception.getMessage());
 			return Optional.empty();
 		}
-	}
-
-	private LottoNumber validateBonusNumber(Lotto winningNumbers, LottoNumber bonusNumber) {
-		new WinningLotto(winningNumbers, bonusNumber);
-		return bonusNumber;
 	}
 }
