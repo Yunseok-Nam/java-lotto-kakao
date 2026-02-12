@@ -24,9 +24,8 @@ public class LottoController {
 	}
 
 	public void run() {
-		PurchaseAmount purchaseAmount = new PurchaseAmount(
-			readUntilValid(inputView::readPurchaseAmount),
-			readUntilValid(inputView::readManualLottoCount)
+		PurchaseAmount purchaseAmount = readUntilValid(
+			() -> new PurchaseAmount(inputView.readPurchaseAmount(), inputView.readManualLottoCount())
 		);
 
 		LottoNumberGenerator lottoNumberGenerator = new RandomLottoNumberGenerator(
@@ -35,8 +34,13 @@ public class LottoController {
 			Lotto.LOTTO_SIZE
 		);
 
-		List<List<Integer>> manualNumbers = inputView.readManualLottoNumbers(purchaseAmount.getManualLottoCount());
-		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator, manualNumbers);
+		LottoMachine lottoMachine = readUntilValid(
+			() -> new LottoMachine(
+				purchaseAmount,
+				lottoNumberGenerator,
+				readManualNumbers(purchaseAmount.getManualLottoCount())
+			)
+		);
 		outputView.printPurchasedLottos(
 			purchaseAmount.getManualLottoCount(),
 			purchaseAmount.getAutoLottoCount(),
@@ -47,9 +51,16 @@ public class LottoController {
 	}
 
 	private WinningLotto readValidWinningLotto() {
-		Lotto winningNumbers = Lotto.from(readUntilValid(inputView::readWinningNumbers));
-		LottoNumber bonusNumber = new LottoNumber(readUntilValid(inputView::readBonusNumber));
-		return new WinningLotto(winningNumbers, bonusNumber);
+		Lotto winningLotto = readUntilValid(() -> Lotto.from(inputView.readWinningNumbers()));
+		LottoNumber bonusNumber = readUntilValid(() -> new LottoNumber(inputView.readBonusNumber()));
+		return new WinningLotto(winningLotto, bonusNumber);
+	}
+
+	private List<List<Integer>> readManualNumbers(int manualLottoCount) {
+		if (manualLottoCount == 0) {
+			return List.of();
+		}
+		return inputView.readManualLottoNumbers(manualLottoCount);
 	}
 
 	private <T> T readUntilValid(Supplier<T> reader) {
