@@ -2,10 +2,11 @@ package lotto.model;
 
 import java.util.Objects;
 
-import lotto.util.LottoRules;
-
 public class LottoNumber implements Comparable<LottoNumber> {
 	private static final String INVALID_RANGE_ERROR_MESSAGE = "로또 번호는 1~45 범위의 숫자입니다.";
+	public static final int MIN_LOTTO_NUMBER = 1;
+	public static final int MAX_LOTTO_NUMBER = 45;
+
 	private final int number;
 
 	public LottoNumber(int number) {
@@ -14,7 +15,7 @@ public class LottoNumber implements Comparable<LottoNumber> {
 	}
 
 	private void validate(int number) {
-		if (number < LottoRules.MIN_LOTTO_NUMBER || number > LottoRules.MAX_LOTTO_NUMBER) {
+		if (number < MIN_LOTTO_NUMBER || number > MAX_LOTTO_NUMBER) {
 			throw new IllegalArgumentException(INVALID_RANGE_ERROR_MESSAGE);
 		}
 	}

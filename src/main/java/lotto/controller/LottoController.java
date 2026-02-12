@@ -6,6 +6,7 @@ import lotto.model.LottoNumber;
 import lotto.model.PurchaseAmount;
 import lotto.model.WinningLotto;
 import lotto.util.LottoNumberGenerator;
+import lotto.util.RandomLottoNumberGenerator;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
@@ -15,16 +16,19 @@ import java.util.function.Supplier;
 public class LottoController {
 	private final InputView inputView;
 	private final OutputView outputView;
-	private final LottoNumberGenerator lottoNumberGenerator;
 
-	public LottoController(InputView inputView, OutputView outputView, LottoNumberGenerator lottoNumberGenerator) {
+	public LottoController(InputView inputView, OutputView outputView) {
 		this.inputView = inputView;
 		this.outputView = outputView;
-		this.lottoNumberGenerator = lottoNumberGenerator;
 	}
 
 	public void run() {
 		PurchaseAmount purchaseAmount = new PurchaseAmount(readUntilValid(inputView::readPurchaseAmount));
+		LottoNumberGenerator lottoNumberGenerator = new RandomLottoNumberGenerator(
+			LottoNumber.MIN_LOTTO_NUMBER,
+			LottoNumber.MIN_LOTTO_NUMBER,
+			Lotto.LOTTO_SIZE
+		);
 		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator);
 		outputView.printPurchasedLottos(lottoMachine.getLottos().values());
 		WinningLotto winningLotto = readValidWinningLotto();

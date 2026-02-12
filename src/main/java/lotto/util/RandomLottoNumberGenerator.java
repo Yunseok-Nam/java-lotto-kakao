@@ -8,9 +8,15 @@ import java.util.stream.IntStream;
 import lotto.model.LottoNumber;
 
 public class RandomLottoNumberGenerator implements LottoNumberGenerator {
+	private final int minNumber;
+	private final int maxNumber;
+	private final int lottoSize;
 	private final List<LottoNumber> cachedLottoNumbers;
 
-	public RandomLottoNumberGenerator() {
+	public RandomLottoNumberGenerator(int minNumber, int maxNumber, int lottoSize) {
+		this.minNumber = minNumber;
+		this.maxNumber = maxNumber;
+		this.lottoSize = lottoSize;
 		this.cachedLottoNumbers = generateCachedLottoNumbers();
 	}
 
@@ -20,13 +26,13 @@ public class RandomLottoNumberGenerator implements LottoNumberGenerator {
 		Collections.shuffle(numbers);
 
 		return numbers.stream()
-			.limit(LottoRules.LOTTO_SIZE)
+			.limit(lottoSize)
 			.sorted()
 			.toList();
 	}
 
 	private List<LottoNumber> generateCachedLottoNumbers() {
-		return IntStream.rangeClosed(LottoRules.MIN_LOTTO_NUMBER, LottoRules.MAX_LOTTO_NUMBER)
+		return IntStream.rangeClosed(minNumber, maxNumber)
 			.mapToObj(LottoNumber::new)
 			.toList();
 	}
