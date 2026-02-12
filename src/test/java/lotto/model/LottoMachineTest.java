@@ -2,7 +2,6 @@ package lotto.model;
 
 import lotto.util.FixedLottoNumberGenerator;
 import lotto.util.LottoNumberGenerator;
-import lotto.util.LottoRules;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ class LottoMachineTest {
 
 		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, generator);
 
-		assertEquals(purchaseAmount / LottoRules.PURCHASE_UNIT, lottoMachine.getLottos().values().size());
+		assertEquals(purchaseAmount / PurchaseAmount.PURCHASE_UNIT, lottoMachine.getLottos().values().size());
 	}
 
 	@DisplayName("구매한 로또들의 당첨 결과를 계산한다.")
