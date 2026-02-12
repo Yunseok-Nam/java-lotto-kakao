@@ -23,13 +23,9 @@ public enum LottoResult {
 	}
 
 	public static LottoResult findByCountAndBonus(int count, boolean hasBonus) {
-		if (SECOND.matchCount == count && hasBonus) {
-			return SECOND;
-		}
-
 		return Arrays.stream(values())
 			.filter(result -> result.matchCount == count)
-			.filter(result -> result != SECOND)
+			.filter(result -> result.includesBonusMatch == hasBonus)
 			.findFirst()
 			.orElse(MISS);
 	}
