@@ -15,6 +15,10 @@ public class PurchaseAmount {
 		this.amount = amount;
 	}
 
+	public double calculateProfitRate(int totalPrize) {
+		return (double)totalPrize / amount;
+	}
+
 	private void validate(int amount) {
 		if (amount < LottoRules.PURCHASE_UNIT) {
 			throw new IllegalArgumentException(MIN_PURCHASE_AMOUNT_ERROR_MESSAGE);

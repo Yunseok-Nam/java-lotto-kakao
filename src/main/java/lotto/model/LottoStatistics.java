@@ -33,14 +33,14 @@ public class LottoStatistics {
 		return counts.get(lottoResult);
 	}
 
+	public double profitRate() {
+		int totalPrize = calculateTotalPrize();
+		return purchaseAmount.calculateProfitRate(totalPrize);
+	}
+
 	public int calculateTotalPrize() {
 		return counts.entrySet().stream()
 			.mapToInt(entry -> entry.getKey().getPrize() * entry.getValue())
 			.sum();
-	}
-
-	public double profitRate() {
-		int purchaseAmountValue = purchaseAmount.getLottoCount() * LottoRules.PURCHASE_UNIT;
-		return (double)calculateTotalPrize() / purchaseAmountValue;
 	}
 }
