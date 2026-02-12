@@ -24,7 +24,7 @@ public class LottoController {
 	}
 
 	public void run() {
-		PurchaseAmount purchaseAmount = readUntilValid(inputView::readPurchaseAmount);
+		PurchaseAmount purchaseAmount = new PurchaseAmount(readUntilValid(inputView::readPurchaseAmount));
 		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator);
 		outputView.printPurchasedLottos(lottoMachine.getLottos().values());
 		WinningLotto winningLotto = readValidWinningLotto();
@@ -32,8 +32,8 @@ public class LottoController {
 	}
 
 	private WinningLotto readValidWinningLotto() {
-		Lotto winningNumbers = readUntilValid(inputView::readWinningNumbers);
-		LottoNumber bonusNumber = readUntilValid(inputView::readBonusNumber);
+		Lotto winningNumbers = Lotto.from(readUntilValid(inputView::readWinningNumbers));
+		LottoNumber bonusNumber = new LottoNumber(readUntilValid(inputView::readBonusNumber));
 		return new WinningLotto(winningNumbers, bonusNumber);
 	}
 

@@ -18,20 +18,20 @@ public class InputView {
 
 	private final Scanner scanner = new Scanner(System.in);
 
-	public PurchaseAmount readPurchaseAmount() {
+	public int readPurchaseAmount() {
 		System.out.println(PURCHASE_AMOUNT_PROMPT);
-		return new PurchaseAmount(parseNumber(scanner.nextLine()));
+		return parseNumber(scanner.nextLine());
 	}
 
-	public Lotto readWinningNumbers() {
+	public List<Integer> readWinningNumbers() {
 		System.out.println();
 		System.out.println(WINNING_NUMBERS_PROMPT);
-		return Lotto.from(parseCommaSeparatedNumbers(scanner.nextLine()));
+		return parseCommaSeparatedNumbers(scanner.nextLine());
 	}
 
-	public LottoNumber readBonusNumber() {
+	public int readBonusNumber() {
 		System.out.println(BONUS_NUMBER_PROMPT);
-		return new LottoNumber(parseNumber(scanner.nextLine()));
+		return parseNumber(scanner.nextLine());
 	}
 
 	private int parseNumber(String value) {
