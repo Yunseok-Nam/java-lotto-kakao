@@ -8,10 +8,15 @@ public class PurchaseAmount {
 	public static final int PURCHASE_UNIT = 1000;
 
 	private final int amount;
+	private final int manualLottoCount;
 
-	public PurchaseAmount(int amount) {
+	public PurchaseAmount(int amount, int manualLottoCount) {
 		validate(amount);
+		if (manualLottoCount * PURCHASE_UNIT > amount) {
+			throw new IllegalArgumentException("금액이 부족합니다.");
+		}
 		this.amount = amount;
+		this.manualLottoCount = manualLottoCount;
 	}
 
 	public double calculateProfitRate(int totalPrize) {
@@ -28,8 +33,12 @@ public class PurchaseAmount {
 		}
 	}
 
-	public int getLottoCount() {
-		return amount / PURCHASE_UNIT;
+	public int getAutoLottoCount() {
+		return (amount / PURCHASE_UNIT) - manualLottoCount;
+	}
+
+	public int getManualLottoCount() {
+		return manualLottoCount;
 	}
 
 	@Override

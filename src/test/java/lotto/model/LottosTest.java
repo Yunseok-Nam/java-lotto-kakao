@@ -21,7 +21,7 @@ class LottosTest {
 			Lotto.from(List.of(1, 2, 3, 4, 5, 6)),
 			new LottoNumber(7)
 		);
-		PurchaseAmount purchaseAmount = new PurchaseAmount(3000);
+		PurchaseAmount purchaseAmount = new PurchaseAmount(3000, 0);
 
 		LottoStatistics lottoStatistics = lottos.calculateStatistics(winningLotto, purchaseAmount);
 
