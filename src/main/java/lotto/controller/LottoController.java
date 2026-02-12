@@ -10,6 +10,7 @@ import lotto.model.generator.RandomLottoNumberGenerator;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -23,14 +24,24 @@ public class LottoController {
 	}
 
 	public void run() {
-		PurchaseAmount purchaseAmount = new PurchaseAmount(readUntilValid(inputView::readPurchaseAmount));
+		PurchaseAmount purchaseAmount = new PurchaseAmount(
+			readUntilValid(inputView::readPurchaseAmount),
+			readUntilValid(inputView::readManualLottoCount)
+		);
+
 		LottoNumberGenerator lottoNumberGenerator = new RandomLottoNumberGenerator(
 			LottoNumber.MIN_LOTTO_NUMBER,
-			LottoNumber.MIN_LOTTO_NUMBER,
+			LottoNumber.MAX_LOTTO_NUMBER,
 			Lotto.LOTTO_SIZE
 		);
-		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator);
-		outputView.printPurchasedLottos(lottoMachine.getLottos().values());
+
+		List<List<Integer>> manualNumbers = inputView.readManualLottoNumbers(purchaseAmount.getManualLottoCount());
+		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, lottoNumberGenerator, manualNumbers);
+		outputView.printPurchasedLottos(
+			purchaseAmount.getManualLottoCount(),
+			purchaseAmount.getAutoLottoCount(),
+			lottoMachine.getLottos().values()
+		);
 		WinningLotto winningLotto = readValidWinningLotto();
 		outputView.printStatistics(lottoMachine.calculateResult(winningLotto));
 	}
