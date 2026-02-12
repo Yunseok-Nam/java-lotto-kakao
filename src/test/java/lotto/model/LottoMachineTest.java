@@ -14,26 +14,28 @@ class LottoMachineTest {
 	@DisplayName("구매 금액에 맞는 개수만큼 로또를 발급한다.")
 	@Test
 	void issueLottosByPurchaseAmountTest() {
-		int purchaseAmount = 3000;
+		int amount = 3000;
+		PurchaseAmount purchaseAmount = new PurchaseAmount(amount, 0);
 		LottoNumberGenerator generator = new FixedLottoNumberGenerator(1, 6);
 
-		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, generator);
+		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, generator, List.of());
 
-		assertEquals(purchaseAmount / PurchaseAmount.PURCHASE_UNIT, lottoMachine.getLottos().values().size());
+		assertEquals(amount / PurchaseAmount.PURCHASE_UNIT, lottoMachine.getLottos().values().size());
 	}
 
 	@DisplayName("구매한 로또들의 당첨 결과를 계산한다.")
 	@Test
 	void calculateLottoResultsTest() {
-		int purchaseAmount = 1000;
+		int amount = 1000;
+		PurchaseAmount purchaseAmount = new PurchaseAmount(1000, 0);
 		LottoNumberGenerator generator = new FixedLottoNumberGenerator(1, 6);
-		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, generator);
+		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, generator, List.of());
 
 		WinningLotto winningLotto = new WinningLotto(Lotto.from(List.of(1, 2, 3, 4, 5, 6)), new LottoNumber(7));
 
 		LottoStatistics statistics = lottoMachine.calculateResult(winningLotto);
 
 		assertEquals(1, statistics.countOf(LottoResult.FIRST));
-		assertEquals(LottoResult.FIRST.getPrize() / (double)purchaseAmount, statistics.profitRate());
+		assertEquals(LottoResult.FIRST.getPrize() / (double)amount, statistics.profitRate());
 	}
 }
