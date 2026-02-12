@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import lotto.model.LottoNumber;
+import lotto.model.generator.LottoNumberGenerator;
 
 public class FixedLottoNumberGenerator implements LottoNumberGenerator {
 

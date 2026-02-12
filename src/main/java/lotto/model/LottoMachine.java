@@ -1,6 +1,6 @@
 package lotto.model;
 
-import lotto.util.LottoNumberGenerator;
+import lotto.model.generator.LottoNumberGenerator;
 
 import java.util.List;
 import java.util.stream.Stream;

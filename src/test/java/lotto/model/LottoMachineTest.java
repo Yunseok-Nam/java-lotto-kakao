@@ -1,7 +1,7 @@
 package lotto.model;
 
 import lotto.util.FixedLottoNumberGenerator;
-import lotto.util.LottoNumberGenerator;
+import lotto.model.generator.LottoNumberGenerator;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
