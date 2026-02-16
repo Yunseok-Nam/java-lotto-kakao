@@ -9,8 +9,8 @@ public class Lottos {
 		this.lottos = List.copyOf(lottos);
 	}
 
-	public LottoStatistics calculateStatistics(WinningLotto winningLotto, PurchaseAmount purchaseAmount) {
-		return LottoStatistics.from(calculateLottoResults(winningLotto), purchaseAmount);
+	public LottoStatistics calculateStatistics(WinningLotto winningLotto, LottoPurchaseInformation lottoPurchaseInformation) {
+		return LottoStatistics.from(calculateLottoResults(winningLotto), lottoPurchaseInformation);
 	}
 
 	private List<LottoResult> calculateLottoResults(WinningLotto winningLotto) {

@@ -21,9 +21,11 @@ class LottosTest {
 			Lotto.from(List.of(1, 2, 3, 4, 5, 6)),
 			new LottoNumber(7)
 		);
-		PurchaseAmount purchaseAmount = new PurchaseAmount(3000, 0);
+		PurchaseAmount purchaseAmount = new PurchaseAmount(3000);
+		ManualLottoCount manualLottoCount = new ManualLottoCount(0);
+		LottoPurchaseInformation lottoPurchaseInformation = new LottoPurchaseInformation(purchaseAmount,manualLottoCount);
 
-		LottoStatistics lottoStatistics = lottos.calculateStatistics(winningLotto, purchaseAmount);
+		LottoStatistics lottoStatistics = lottos.calculateStatistics(winningLotto, lottoPurchaseInformation);
 
 		assertEquals(1L, lottoStatistics.countOf(LottoResult.FIRST));
 		assertEquals(1L, lottoStatistics.countOf(LottoResult.SECOND));

@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class LottoMachine {
-	private final PurchaseAmount purchaseAmount;
+	private final LottoPurchaseInformation lottoPurchaseInformation;
 	private final Lottos lottos;
 
 	public LottoMachine(
-		PurchaseAmount purchaseAmount,
+		LottoPurchaseInformation lottoPurchaseInformation,
 		LottoNumberGenerator generator,
 		List<List<Integer>> manualNumbers
 	) {
-		this.purchaseAmount = purchaseAmount;
+		this.lottoPurchaseInformation = lottoPurchaseInformation;
 		List<Lotto> manualLottos = issueManualLottos(manualNumbers);
 		List<Lotto> autoLottos = issueAutoLottos(generator);
 		this.lottos = new Lottos(Stream.concat(manualLottos.stream(), autoLottos.stream()).toList());
@@ -22,7 +22,7 @@ public class LottoMachine {
 
 	private List<Lotto> issueAutoLottos(LottoNumberGenerator generator) {
 		return Stream.generate(() -> new Lotto(generator.generate()))
-			.limit(purchaseAmount.getAutoLottoCount())
+			.limit(lottoPurchaseInformation.autoLottoCount())
 			.toList();
 	}
 
@@ -37,6 +37,6 @@ public class LottoMachine {
 	}
 
 	public LottoStatistics calculateResult(WinningLotto winningLotto) {
-		return lottos.calculateStatistics(winningLotto, purchaseAmount);
+		return lottos.calculateStatistics(winningLotto, lottoPurchaseInformation);
 	}
 }

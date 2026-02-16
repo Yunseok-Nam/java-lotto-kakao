@@ -15,10 +15,12 @@ class LottoMachineTest {
 	@Test
 	void issueLottosByPurchaseAmountTest() {
 		int amount = 3000;
-		PurchaseAmount purchaseAmount = new PurchaseAmount(amount, 0);
+		PurchaseAmount purchaseAmount = new PurchaseAmount(amount);
+		ManualLottoCount manualLottoCount = new ManualLottoCount(0);
+		LottoPurchaseInformation lottoPurchaseInformation = new LottoPurchaseInformation(purchaseAmount,manualLottoCount);
 		LottoNumberGenerator generator = new FixedLottoNumberGenerator(1, 6);
 
-		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, generator, List.of());
+		LottoMachine lottoMachine = new LottoMachine(lottoPurchaseInformation, generator, List.of());
 
 		assertEquals(amount / PurchaseAmount.PURCHASE_UNIT, lottoMachine.getLottos().values().size());
 	}
@@ -27,9 +29,11 @@ class LottoMachineTest {
 	@Test
 	void calculateLottoResultsTest() {
 		int amount = 1000;
-		PurchaseAmount purchaseAmount = new PurchaseAmount(1000, 0);
+		PurchaseAmount purchaseAmount = new PurchaseAmount(1000);
+		ManualLottoCount manualLottoCount = new ManualLottoCount(0);
+		LottoPurchaseInformation lottoPurchaseInformation = new LottoPurchaseInformation(purchaseAmount,manualLottoCount);
 		LottoNumberGenerator generator = new FixedLottoNumberGenerator(1, 6);
-		LottoMachine lottoMachine = new LottoMachine(purchaseAmount, generator, List.of());
+		LottoMachine lottoMachine = new LottoMachine(lottoPurchaseInformation, generator, List.of());
 
 		WinningLotto winningLotto = new WinningLotto(Lotto.from(List.of(1, 2, 3, 4, 5, 6)), new LottoNumber(7));
 

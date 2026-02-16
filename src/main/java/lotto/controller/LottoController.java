@@ -3,6 +3,8 @@ package lotto.controller;
 import lotto.model.Lotto;
 import lotto.model.LottoMachine;
 import lotto.model.LottoNumber;
+import lotto.model.LottoPurchaseInformation;
+import lotto.model.ManualLottoCount;
 import lotto.model.PurchaseAmount;
 import lotto.model.WinningLotto;
 import lotto.model.generator.LottoNumberGenerator;
@@ -24,9 +26,11 @@ public class LottoController {
 	}
 
 	public void run() {
-		PurchaseAmount purchaseAmount = readUntilValid(
-			() -> new PurchaseAmount(inputView.readPurchaseAmount(), inputView.readManualLottoCount())
-		);
+		PurchaseAmount purchaseAmount = readUntilValid(() -> new PurchaseAmount(inputView.readPurchaseAmount()));
+		LottoPurchaseInformation lottoPurchaseInformation = readUntilValid(() -> {
+			ManualLottoCount manualLottoCount = new ManualLottoCount(inputView.readManualLottoCount());
+			return new LottoPurchaseInformation(purchaseAmount, manualLottoCount);
+		});
 
 		LottoNumberGenerator lottoNumberGenerator = new RandomLottoNumberGenerator(
 			LottoNumber.MIN_LOTTO_NUMBER,
@@ -36,14 +40,14 @@ public class LottoController {
 
 		LottoMachine lottoMachine = readUntilValid(
 			() -> new LottoMachine(
-				purchaseAmount,
+				lottoPurchaseInformation,
 				lottoNumberGenerator,
-				readManualNumbers(purchaseAmount.getManualLottoCount())
+				readManualNumbers(lottoPurchaseInformation.manualLottoCount())
 			)
 		);
 		outputView.printPurchasedLottos(
-			purchaseAmount.getManualLottoCount(),
-			purchaseAmount.getAutoLottoCount(),
+			lottoPurchaseInformation.manualLottoCount(),
+			lottoPurchaseInformation.autoLottoCount(),
 			lottoMachine.getLottos().values()
 		);
 		WinningLotto winningLotto = readValidWinningLotto();

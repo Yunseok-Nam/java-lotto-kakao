@@ -6,17 +6,17 @@ import java.util.Map;
 
 public class LottoStatistics {
 	private final Map<LottoResult, Integer> counts;
-	private final PurchaseAmount purchaseAmount;
+	private final LottoPurchaseInformation lottoPurchaseInformation;
 
-	private LottoStatistics(Map<LottoResult, Integer> counts, PurchaseAmount purchaseAmount) {
+	private LottoStatistics(Map<LottoResult, Integer> counts, LottoPurchaseInformation lottoPurchaseInformation) {
 		this.counts = counts;
-		this.purchaseAmount = purchaseAmount;
+		this.lottoPurchaseInformation = lottoPurchaseInformation;
 	}
 
-	public static LottoStatistics from(List<LottoResult> results, PurchaseAmount purchaseAmount) {
+	public static LottoStatistics from(List<LottoResult> results, LottoPurchaseInformation lottoPurchaseInformation) {
 		Map<LottoResult, Integer> counts = initializeCounts();
 		results.forEach(result -> counts.put(result, counts.get(result) + 1));
-		return new LottoStatistics(counts, purchaseAmount);
+		return new LottoStatistics(counts, lottoPurchaseInformation);
 	}
 
 	private static Map<LottoResult, Integer> initializeCounts() {
@@ -33,7 +33,7 @@ public class LottoStatistics {
 
 	public double profitRate() {
 		int totalPrize = calculateTotalPrize();
-		return purchaseAmount.calculateProfitRate(totalPrize);
+		return lottoPurchaseInformation.profitRate(totalPrize);
 	}
 
 	public int calculateTotalPrize() {
