@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OutputView {
-	private static final String PURCHASED_LOTTOS_MESSAGE = "개를 구매했습니다.";
 	private static final String PURCHASED_LOTTOS_WITH_MANUAL_MESSAGE = "수동으로 %d장, 자동으로 %d개를 구매했습니다.";
 	private static final String STATISTICS_TITLE = "당첨 통계";
 	private static final String STATISTICS_SEPARATOR = "---------";
@@ -34,7 +33,7 @@ public class OutputView {
 		LottoResult.winningResultsByPrizeAscending().stream()
 			.map(result -> formatResultLine(result, lottoStatistics.countOf(result)))
 			.forEach(System.out::println);
-		System.out.printf((PROFIT_RATE_MESSAGE_FORMAT) + "%n", toDisplayProfitRate(lottoStatistics.profitRate()));
+		System.out.printf((PROFIT_RATE_MESSAGE_FORMAT) + "%n", lottoStatistics.profitRate());
 	}
 
 	private String formatResultLine(LottoResult lottoResult, long count) {
@@ -42,12 +41,6 @@ public class OutputView {
 			return SECOND_RESULT_LINE_FORMAT.formatted(lottoResult.getMatchCount(), lottoResult.getPrize(), count);
 		}
 		return RESULT_LINE_FORMAT.formatted(lottoResult.getMatchCount(), lottoResult.getPrize(), count);
-	}
-
-	private double toDisplayProfitRate(double profitRate) {
-		return BigDecimal.valueOf(profitRate)
-			.setScale(2, RoundingMode.DOWN)
-			.doubleValue();
 	}
 
 	private String formatLotto(Lotto lotto) {

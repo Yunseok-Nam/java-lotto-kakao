@@ -1,5 +1,8 @@
 package lotto.model;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 public class PurchaseAmount {
@@ -14,8 +17,8 @@ public class PurchaseAmount {
 		this.amount = amount;
 	}
 
-	public double calculateProfitRate(int totalPrize) {
-		return (double)totalPrize / amount;
+	public BigDecimal calculateProfitRate(BigDecimal totalPrize) {
+		return totalPrize.divide(BigDecimal.valueOf(amount), MathContext.DECIMAL64);
 	}
 
 	private void validate(int amount) {

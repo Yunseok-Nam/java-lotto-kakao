@@ -1,5 +1,6 @@
 package lotto.model;
 
+import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -31,14 +32,14 @@ public class LottoStatistics {
 		return counts.get(lottoResult);
 	}
 
-	public double profitRate() {
-		int totalPrize = calculateTotalPrize();
+	public BigDecimal profitRate() {
+		BigDecimal totalPrize = BigDecimal.valueOf(calculateTotalPrize());
 		return lottoPurchaseInformation.profitRate(totalPrize);
 	}
 
-	public int calculateTotalPrize() {
+	public long calculateTotalPrize() {
 		return counts.entrySet().stream()
-			.mapToInt(entry -> entry.getKey().getPrize() * entry.getValue())
+			.mapToLong(entry -> (long)entry.getKey().getPrize() * entry.getValue())
 			.sum();
 	}
 }

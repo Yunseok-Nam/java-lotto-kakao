@@ -1,5 +1,7 @@
 package lotto.model;
 
+import java.math.BigDecimal;
+
 public final class LottoPurchaseInformation {
 	private static final String INSUFFICIENT_ERROR = "금액이 부족합니다.";
 	private static final int MIN_AUTO_LOTTO_COUNT = 0;
@@ -23,7 +25,7 @@ public final class LottoPurchaseInformation {
 		return purchaseAmount.getAutoLottoCount(manualLottoCount);
 	}
 
-	public double profitRate(int totalPrize) {
+	public BigDecimal profitRate(BigDecimal totalPrize) {
 		return purchaseAmount.calculateProfitRate(totalPrize);
 	}
 }
