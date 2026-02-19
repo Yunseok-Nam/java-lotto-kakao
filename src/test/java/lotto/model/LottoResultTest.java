@@ -15,10 +15,15 @@ class LottoResultTest {
 		"5, true, SECOND",
 		"5, false, THIRD",
 		"4, false, FOURTH",
+		"4, true, FOURTH",
 		"3, false, FIFTH",
+		"3, true, FIFTH",
 		"2, false, MISS",
+		"2, true, MISS",
 		"1, false, MISS",
-		"0, false, MISS"
+		"1, true, MISS",
+		"0, false, MISS",
+		"0, true, MISS"
 	})
 	void findByCountAndBonus_Basic(int count, boolean hasBonus, LottoResult expected) {
 		LottoResult result = LottoResult.findByCountAndBonus(count, hasBonus);

@@ -25,7 +25,7 @@ public enum LottoResult {
 	public static LottoResult findByCountAndBonus(int count, boolean hasBonus) {
 		return Arrays.stream(values())
 			.filter(result -> result.matchCount == count)
-			.filter(result -> result.includesBonusMatch == hasBonus)
+			.filter(result -> result.matchCount != 5 || result.includesBonusMatch == hasBonus)
 			.findFirst()
 			.orElse(MISS);
 	}
