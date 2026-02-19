@@ -45,6 +45,7 @@ public class LottoController {
 				readManualNumbers(lottoPurchaseInformation.manualLottoCount())
 			)
 		);
+
 		outputView.printPurchasedLottos(
 			lottoPurchaseInformation.manualLottoCount(),
 			lottoPurchaseInformation.autoLottoCount(),
@@ -60,11 +61,14 @@ public class LottoController {
 		return new WinningLotto(winningLotto, bonusNumber);
 	}
 
-	private List<List<Integer>> readManualNumbers(int manualLottoCount) {
+	private List<Lotto> readManualNumbers(int manualLottoCount) {
 		if (manualLottoCount == 0) {
 			return List.of();
 		}
-		return inputView.readManualLottoNumbers(manualLottoCount);
+
+		return inputView.readManualLottoNumbers(manualLottoCount).stream()
+			.map(Lotto::from)
+			.toList();
 	}
 
 	private <T> T readUntilValid(Supplier<T> reader) {

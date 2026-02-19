@@ -12,10 +12,9 @@ public class LottoMachine {
 	public LottoMachine(
 		LottoPurchaseInformation lottoPurchaseInformation,
 		LottoNumberGenerator generator,
-		List<List<Integer>> manualNumbers
+		List<Lotto> manualLottos
 	) {
 		this.lottoPurchaseInformation = lottoPurchaseInformation;
-		List<Lotto> manualLottos = issueManualLottos(manualNumbers);
 		List<Lotto> autoLottos = issueAutoLottos(generator);
 		this.lottos = new Lottos(Stream.concat(manualLottos.stream(), autoLottos.stream()).toList());
 	}
@@ -23,12 +22,6 @@ public class LottoMachine {
 	private List<Lotto> issueAutoLottos(LottoNumberGenerator generator) {
 		return Stream.generate(() -> new Lotto(generator.generate()))
 			.limit(lottoPurchaseInformation.autoLottoCount())
-			.toList();
-	}
-
-	private List<Lotto> issueManualLottos(List<List<Integer>> manualNumbers) {
-		return manualNumbers.stream()
-			.map(Lotto::from)
 			.toList();
 	}
 
